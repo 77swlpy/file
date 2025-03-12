@@ -1,39 +1,24 @@
-#include <iostream>
-#include <cmath>
-using namespace std;
+n = int(input())
+a = list(map(int, input().split()))
+m = int(input())
+p1, s1, s2 = map(int, input().split())
 
-const int MAXN = 100005;
+# 天降神兵处理
+a[p1 - 1] += s1  # 假设兵营编号从1开始
 
-long long a[MAXN];
+# 初始气势计算
+sum_diff = 0
+for i in range(n):
+    sum_diff += a[i] * (i + 1 - m)
 
-int main() {
-    int n, m, p1, p2;
-    long long s1, s2, sum = 0, ans = 0;
+min_diff = abs(sum_diff)
+best_p2 = m - 1  # 假设兵营编号从1开始，初始为分界点
 
-    cin >> n;
-    for (int i = 1; i <= n; ++i) {
-        cin >> a[i];
-    }
-    cin >> m >> p1 >> s1 >> s2;
+# 枚举所有可能的位置
+for i in range(n):
+    current_diff = abs(sum_diff + s2 * (i + 1 - m))
+    if current_diff < min_diff:
+        min_diff = current_diff
+        best_p2 = i + 1  # 兵营编号从1开始
 
-    a[p1] += s1;
-
-    for (int i = 1; i <= n; ++i) {
-        sum += a[i] * (i - m);
-    }
-
-    long long min_diff = abs(sum);
-    p2 = m;
-
-    for (int i = 1; i <= n; ++i) {
-        long long current_diff = abs(sum + s2 * (i - m));
-        if (current_diff < min_diff) {
-            min_diff = current_diff;
-            p2 = i;
-        }
-    }
-
-    cout << p2 << endl;
-
-    return 0;
-}
+print(best_p2)
